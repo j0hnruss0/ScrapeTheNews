@@ -1,11 +1,23 @@
 <div id="main page">
-    <div class="container">
-        <div class="header">
-            <h1>{{msg}}</h1>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <h2>{{msg}}</h2>
+        
+        <div class="navbar-collapse">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+            <a class="nav-link" href="#" onclick="clearArticles();">Clear Articles</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link" href="/saved">Saved Articles</a>
+            </li>
+        </ul>
         </div>
+    </nav>
+    <div class="container">
         <div class="row">
-            <div class="col-10">
-                <div id="the-news"></div>
+            <div class="col-12">
+                <button type="button" id="scrape-now" class="btn btn-success mt-2">Scrape Now!</button>
+                <div class="mb-5" id="the-news"></div>
             </div>
         </div>
     </div>
