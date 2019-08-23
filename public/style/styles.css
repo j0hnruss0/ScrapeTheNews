@@ -1,5 +1,11 @@
 body { 
-    background-color: #F2F6D0; 
+    background-image: url("../images/ufo.jpg"); 
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
 }
 
 a:link {
@@ -10,23 +16,29 @@ a:link {
     margin-left: auto;
 }
 
+@media only screen and (max-width: 990px) {
+    li {
+        margin-right: 10px;
+    }
+}
+
 @media only screen and (max-width: 767px) {
 
-#intro-banner {
-    font-size: 25px;
-}
+    #intro-banner {
+        font-size: 25px;
+    }
 
 }
 
 @media only screen and (max-width: 600px) {
 
-#intro-banner {
-    font-size: 20px;
-    margin-left: 10px;
-}
+    #intro-banner {
+        font-size: 20px;
+        margin-left: 10px;
+    }
 
-#to-saved-page {
-    margin-right: 20px;
-}
+    #to-saved-page {
+        margin-right: 20px;
+    }
 
 }

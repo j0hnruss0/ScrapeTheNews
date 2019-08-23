@@ -48,6 +48,26 @@ var updateNotes = function() {
   });   
 };
 
+// This function not used in this version -------------------------------
+var updateOneNote = function(noteId) {
+  $.ajax({
+    url: "/note/" + noteId,
+    type: "GET"
+  }).then(function(data) {
+    $(".your-notes[data-id='" + data.articleId + "']").append("<div class='card mt-1 offset-1' style='width: 80%;' data-id='" +
+      data._id +
+      "'><div class='card-header'><h3>" +
+      data.title +
+      "</h3></div><div class='card-body'><p class='card-text d-inline-block'>" +
+      data.body +
+      "</p><button class='btn btn-danger delete-note float-right' value='" +
+      data._id +
+      "'>X</button></div></div>"
+    );
+  });
+};
+// Above function not used in this version -------------------------------
+
 var scrapeNow = function() {
   $.ajax({
       url: "/scrape",
@@ -114,7 +134,7 @@ var publishNote = function() {
       body: $("#note-body").val(),
       articleId: id
     }
-  }).then(function(data) {
+  }).then(function() {
     console.log("post made");
   });
 
@@ -122,6 +142,17 @@ var publishNote = function() {
   $("#note-modal").modal("hide");
   $("#note-title").val("");
   $("#note-body").val("");
+};
+
+var deleteNote = function() {
+  var id = $(this).val();
+  $.ajax({
+    url: "/note/" + id,
+    type: "DELETE"
+  }).then(function() {
+    console.log("note deleted");
+  });
+  updateNotes();
 };
 
 var clearArticles = function() {
@@ -137,6 +168,7 @@ var clearArticles = function() {
 
 $(document).on("click", ".save-article", saveArticle);
 $(document).on("click", ".delete-article", deleteArticle);
+$(document).on("click", ".delete-note", deleteNote);
 $(document).on("click", ".add-note", startNote);
 $(document).on("click", ".publish-note", publishNote);
 $("#scrape-now").on("click", scrapeNow);

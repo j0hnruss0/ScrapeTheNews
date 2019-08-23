@@ -3,7 +3,7 @@
         <h2>{{msg}}</h2>
         
         <div class="navbar-collapse">
-        <ul class="navbar-nav ml-auto">
+        <ul class="navbar-nav ml-auto flex-row">
             <li class="nav-item">
             <a class="nav-link" href="#" onclick="clearArticles();">Clear Articles</a>
             </li>
@@ -16,9 +16,17 @@
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <button type="button" id="scrape-now" class="btn btn-success mt-2">Scrape Now!</button>
+                <button type="button" id="scrape-now" class="btn btn-success mt-2">Scrape Now</button>
+                <h4 class="d-inline text-light ml-2"><em>to get news from the most trusted news source, Weekly World News</em></h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
                 <div class="mb-5" id="the-news"></div>
             </div>
         </div>
     </div>
+</div>
+<div class="footer">
+    <p class="text-light text-center">Made by John Russo, 2019</p>
 </div>

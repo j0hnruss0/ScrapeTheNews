@@ -16,6 +16,7 @@ app.use(express.json());
 //app.use(express.static(path.join(__dirname, "public")));
 app.use('*/style', express.static('public/style'));
 app.use('*/js', express.static('public/js'));
+app.use('*/images', express.static('public/images'));
 
 // Handlebars
 app.engine(
@@ -127,10 +128,30 @@ app.get("/notes/:id", function(req, res) {
     });
 });
 
+app.get("/note/:id", function(req, res) {
+  db.Note.findOne({_id: req.params.id})
+    .then(function(dbNote) {
+      res.json(dbNote);
+    })
+    .catch(function(err) {
+      res.json(err);
+    });
+});
+
 app.delete("/notes/:id", function(req, res) {
   db.Note.deleteMany({articleId:req.params.id})
     .then(function(dbNotes) {
       res.json(dbNotes);
+    })
+    .catch(function(err) {
+      res.json(err);
+    });
+});
+
+app.delete("/note/:id", function(req, res) {
+  db.Note.deleteOne({_id: req.params.id})
+    .then(function(dbNote) {
+      res.json(dbNote);
     })
     .catch(function(err) {
       res.json(err);
