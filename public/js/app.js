@@ -1,7 +1,7 @@
 var updateFrontPage = function() {
   $("#the-news").empty();
   $.ajax({
-    url: "/articles",
+    url: "/unsaved",
     method: "GET"
   }).then(function(data) {
     data.forEach(res => {
@@ -16,12 +16,36 @@ var updateFrontPage = function() {
         "' target='_blank'><p>" +
         res.link +
         "</p></a>" +
-        "<div class='col-2'><button class='btn btn-success' value='" +
+        "<button class='save-article btn btn-success' value='" +
         res._id +
         "'>Save!</button></div></div>"
       );
     });
   });
+};
+
+var updateNotes = function() {
+  $(".your-notes").empty();
+  $(".your-articles").each(function() {
+    $.ajax({
+      url: "/notes/" + $(this).attr("data-id"),
+      type: "GET"
+    }).then(function(data) {
+      console.log(data);
+      data.forEach(function(noteData) {
+        $(".your-notes[data-id='" + noteData.articleId + "']").append("<div class='card mt-1 offset-1' style='width: 80%;' data-id='" +
+          noteData._id +
+          "'><div class='card-header'><h3>" +
+          noteData.title +
+          "</h3></div><div class='card-body'><p class='card-text d-inline-block'>" +
+          noteData.body +
+          "</p><button class='btn btn-danger delete-note float-right' value='" +
+          noteData._id +
+          "'>X</button></div></div>"
+        );
+      });
+    });
+  });   
 };
 
 var scrapeNow = function() {
@@ -43,6 +67,63 @@ var scrapeNow = function() {
   });
 };
 
+var saveArticle = function() {
+  var id = $(this).val();
+  console.log(id);
+  $.ajax({
+    url: "articles/" + id,
+    type: "PUT"
+  }).then(function(data) {
+    console.log("updated");
+    console.log(data);
+  });
+  updateFrontPage();
+};
+
+var deleteArticle = function() {
+  var id = $(this).val();
+  $.ajax({
+    url: "clear/" + id,
+    type: "DELETE"
+  }).then(function() {
+    console.log("deleted");
+    $(".your-articles[data-id='" + id + "']").remove(); 
+    $.ajax({
+      url: "/notes/" + id,
+      type: "DELETE"
+    })
+    .then(function() {
+      console.log("notes gone, too");
+    })
+  });
+};
+
+var startNote = function() {
+  var id = $(this).val();
+  $('#note-modal').modal('show');
+  $(".publish-note").val(id);
+};
+
+var publishNote = function() {
+  var id = $(".publish-note").val();
+  $.ajax({
+    url: "/articles/" + id,
+    type: "POST",
+    data: {
+      title: $("#note-title").val(),
+      body: $("#note-body").val(),
+      articleId: id
+    }
+  }).then(function(data) {
+    console.log("post made");
+  });
+
+  updateNotes();
+  $("#note-modal").modal("hide");
+  $("#note-title").val("");
+  $("#note-body").val("");
+};
+
 var clearArticles = function() {
   $.ajax({
     url: "/clear",
@@ -54,5 +135,10 @@ var clearArticles = function() {
   updateFrontPage();
 };
 
+$(document).on("click", ".save-article", saveArticle);
+$(document).on("click", ".delete-article", deleteArticle);
+$(document).on("click", ".add-note", startNote);
+$(document).on("click", ".publish-note", publishNote);
 $("#scrape-now").on("click", scrapeNow);
 updateFrontPage();
+updateNotes();

@@ -12,9 +12,47 @@
     </nav>
     <div class="container">
         <div class="row">
-            <div class="col-10">
-                
+            <div id="the-saved" class="col-12">
+                {{#each article}}
+                    {{#if saved}}
+                        <div class="your-articles"  data-id={{_id}}>
+                            <div class='card mt-2'>
+                                <div class='card-body'>
+                                    <h2>{{title}}</h2>
+                                    <p><em>{{info}}</em></p>
+                                    <a href={{link}} target='_blank'>
+                                        <p>{{link}}</p>
+                                    </a>
+                                    <button class='btn btn-danger delete-article' value={{_id}}>Delete</button>
+                                    <button class='btn btn-success add-note' value={{_id}} data-toggle="modal" data-target="#note-modal">Add Note</button>
+                                </div>
+                            </div>
+                            <div class="your-notes" data-id={{_id}}></div>
+                        </div>
+                    {{/if}}
+                {{/each}}
             </div>
         </div>
     </div>
+</div>
+
+<!-- Modal for notes goes here -->
+
+<div class="modal fade" id="note-modal" tabindex="-1" role="dialog" aria-labelledby="note-modal-label" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <form class="note-form">
+            <label for="note-title"><h3>Note title:<h3></label>
+            <input id="note-title" name="title"></input><br><br>
+            <label for="note-body"><h3>Your Note:<h3></label>
+            <textarea id="note-body" name="body" rows="3" cols="30"></textarea><br>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="publish-note btn btn-primary">Make a Note</button>
+      </div>
+    </div>
+  </div>
 </div>

@@ -5,10 +5,7 @@ var Schema = mongoose.Schema;
 var NoteSchema = new Schema({
   title: String,
   body: String,
-  author: {
-    type: Schema.Types.ObjectId,
-    ref: "User"
-  }
+  articleId: String
 
 });
 
